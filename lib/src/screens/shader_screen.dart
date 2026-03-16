@@ -44,7 +44,7 @@ class ShaderScreen extends ConsumerStatefulWidget {
 class _ShaderScreenState extends ConsumerState<ShaderScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
-  late final ui.Image? _image;
+  ui.Image? _image;
   List<FragmentShader?> _shaders = const [];
 
   @override
@@ -57,6 +57,7 @@ class _ShaderScreenState extends ConsumerState<ShaderScreen>
 
   Future<void> _loadImage() async {
     _image = await ImageUtil.loadImageFromAsset("assets/images/doraemon.png");
+    setState(() {});
   }
 
   @override
@@ -82,23 +83,24 @@ class _ShaderScreenState extends ConsumerState<ShaderScreen>
       body: ListView(
         children: [
           () {
-            final width = 300.0;
-            final height = 300.0;
-            if (_shaders.isEmpty) {
-              return SizedBox(
-                width: width,
-                height: height,
+            if (_shaders.isEmpty || _image == null) {
+              return Container(
+                width: 300,
+                height: 300,
+                alignment: Alignment.center,
                 child: const CircularProgressIndicator(),
               );
+            } else {
+              return Center(
+                child: CustomPaint(
+                  size: Size(300, 300),
+                  painter: ShaderPainter(
+                    shader: _shaders[_tabController.index]!,
+                    image: _image!,
+                  ),
+                ),
+              );
             }
-
-            return CustomPaint(
-              size: Size(width, height),
-              painter: ShaderPainter(
-                shader: _shaders[_tabController.index]!,
-                image: _image!,
-              ),
-            );
           }(),
           TabBar(
             controller: _tabController,
