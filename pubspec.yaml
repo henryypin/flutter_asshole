@@ -53,5 +53,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  shaders:
+    - assets/shaders/color.frag
+    - assets/shaders/black_and_white.frag
+    - assets/shaders/pixelated.frag
+
   assets:
     - assets/images/
