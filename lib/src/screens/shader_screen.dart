@@ -104,6 +104,7 @@ class _ShaderScreenState extends ConsumerState<ShaderScreen>
           }(),
           TabBar(
             controller: _tabController,
+            onTap: (_) => setState(() {}),
             tabs: _Tab.values.map((tab) => Tab(text: tab.label)).toList(),
           ),
         ],
